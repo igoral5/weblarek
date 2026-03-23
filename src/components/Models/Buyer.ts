@@ -27,6 +27,15 @@ export class Buyer implements IBuyer  {
         return result;
     }
 
+    getBuyer(): IBuyer {
+        return {
+            payment: this.payment,
+            address: this.address,
+            email: this.email,
+            phone: this.phone,
+        }
+    }
+
     setPayment(payment: TPayment) {
         this.payment = payment;
     }
