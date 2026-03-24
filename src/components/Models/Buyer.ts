@@ -1,55 +1,90 @@
 import { IBuyer, TPayment } from "../../types";
 
-export class Buyer implements IBuyer  {
+type TError = Record<string,string>;
 
-    payment: TPayment;
-    address: string;
-    email: string;
-    phone: string;
+/**
+ * Класс покупатель
+ */
+export class Buyer {
 
+    protected buyer: IBuyer;
+
+    /**
+     * Создает покупателя
+     */
     constructor() {
-        this.payment = '';
-        this.address = '';
-        this.email = '';
-        this.phone = '';
+        this.buyer = {
+            payment: '',
+            address: '',
+            email: '',
+            phone: '',
+        }
     }
 
-    check(): Record<string, string> {
-        const result: Record<string, string> = {};
-        if (this.payment.length === 0)
+    /**
+     * Производит проверку, возвращает объект, в котором ключом, является поле, а значением - проблемы с этим полем
+     * Если проблем нет, возвращается пустой объект
+     * @returns Найденные ошибки
+     */
+    public validate(): TError {
+        const result: TError = {};
+        if (this.buyer.payment.length === 0)
             result['payment'] = 'Не указан способ оплаты';
-        if (this.address.length === 0)
+        if (this.buyer.address.length === 0)
             result['address'] = 'Не указан адрес';
-        if (this.email.length === 0)
+        if (this.buyer.email.length === 0)
             result['email'] = 'Не указан электронный адрес';
-        if (this.phone.length === 0)
+        if (this.buyer.phone.length === 0)
             result['phone'] = 'Не указан телефон';
         return result;
     }
 
-    getBuyer(): IBuyer {
-        return {
-            payment: this.payment,
-            address: this.address,
-            email: this.email,
-            phone: this.phone,
-        }
+    /**
+     * Возвращает покупателя
+     * @returns Покупатель
+     */
+    public getBuyer(): IBuyer {
+        return this.buyer;
     }
 
-    setPayment(payment: TPayment) {
-        this.payment = payment;
+    /**
+     * Устанвливает покупателя
+     * @param buyer Покупатель
+     */
+    public setBuyer(buyer: IBuyer) {
+        this.buyer = buyer;
     }
 
-    setAddress(address: string) {
-        this.address = address;
+    /**
+     * Устанавливает способ оплаты
+     * @param payment Способ оплаты online, cash
+     */
+    public setPayment(payment: TPayment) {
+        this.buyer.payment = payment;
     }
 
-    setEmail(email: string) {
-        this.email = email;
+    /**
+     * Устанавливает адрес
+     * @param address Адрес
+     */
+    public setAddress(address: string) {
+        this.buyer.address = address;
     }
 
-    setPhone(phone: string) {
-        this.phone = phone
+    /**
+     * Устанавливает email
+     * @param email email
+     */
+    public setEmail(email: string) {
+        this.buyer.email = email;
+    }
+
+    /**
+     * Устанавливает телефон
+     * @param phone Телефон
+     */
+    public setPhone(phone: string) {
+        this.buyer.phone = phone
     }
 
 }

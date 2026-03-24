@@ -1,3 +1,4 @@
+import { Api } from './components/base/Api';
 import { ApiClient } from './components/Client';
 import { Buyer } from './components/Models/Buyer';
 import { Cart } from './components/Models/Cart';
@@ -6,7 +7,9 @@ import './scss/styles.scss';
 import { IOrder } from './types';
 import { API_URL } from './utils/constants';
 
-const client: ApiClient = new ApiClient(API_URL);
+const api = new Api(API_URL);
+
+const client: ApiClient = new ApiClient(api);
 
 
 client.getProducts().then(data => {
@@ -27,11 +30,11 @@ client.getProducts().then(data => {
     buyer.setPayment('online');
     buyer.setPhone('123456789');
 
-    console.log('Результат проверки информации введенной покупателем: ', buyer.check());
+    console.log('Результат проверки информации введенной покупателем: ', buyer.validate());
 
     const order: IOrder = {
         ...buyer.getBuyer(),
-        total: cart.costProducts(),
+        total: cart.cost(),
         items: cart.getProducts().map(val => val.id)
     };
 

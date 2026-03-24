@@ -1,33 +1,66 @@
 import { IProduct } from "../../types";
 
+/**
+ * Каталог продуктов
+ */
 export class Catalog {
 
-    products: IProduct[];
+    /**
+     * Собственно каталог
+     */
+    protected products: IProduct[];
 
-    selected: IProduct | null;
+    /**
+     * Выбранный продукт
+     */
+    protected selected: IProduct | null;
 
+    /**
+     * Создание каталога
+     */
     constructor() {
         this.products = [];
         this.selected = null;
     }
 
-    setProcucts(products: IProduct[]) {
+    /**
+     * Установка полного списка продуктов
+     * @param products Список продуктов
+     */
+    public setProcucts(products: IProduct[]) {
         this.products = products;
     }
 
-    getProducts(): IProduct[] {
+    /**
+     * Получение списка продуктов
+     * @returns Список продуктов
+     */
+    public getProducts(): IProduct[] {
         return this.products;
     }
 
-    getProduct(id: string): IProduct | undefined {
+    /**
+     * Получение продукта по его идентификатору
+     * @param id Идентификатор продукта
+     * @returns Продукт
+     */
+    public getProduct(id: string): IProduct | undefined {
         return this.products.find(val => val.id === id);
     }
 
-    setSelected(product: IProduct | null) {
+    /**
+     * Установка выбранного продукта
+     * @param product Продукт
+     */
+    public setSelected(product: IProduct | null) {
         this.selected = product;
     }
 
-    getSelected(): IProduct | null {
+    /**
+     * Получение выбранного продукта
+     * @returns Продукт
+     */
+    public getSelected(): IProduct | null {
         return this.selected;
     }
 

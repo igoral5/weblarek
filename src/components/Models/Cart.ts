@@ -1,38 +1,72 @@
 import { IProduct } from "../../types";
 
+/**
+ * Корзина покупателя
+ */
 export class Cart {
 
-    products: IProduct[];
+    protected products: IProduct[];
 
+    /**
+     * Создание корзины
+     */
     constructor() {
         this.products = [];
     }
 
-    addProduct(product: IProduct) {
+    /**
+     * Добавляет продукт в корзину
+     * @param product Продукт
+     */
+    public addProduct(product: IProduct) {
         this.products.push(product);
     }
 
-    deleteProduct(product: IProduct) {
+    /**
+     * Удаляет продукт из корзины
+     * @param product Продукт
+     */
+    public deleteProduct(product: IProduct) {
         this.products = this.products.filter(val => val.id !== product.id);
     }
 
-    countProducts(): number {
+    /**
+     * Возвращает количество продуктов
+     * @returns Количество
+     */
+    public count(): number {
         return this.products.length;
     }
 
-    getProducts(): IProduct[] {
+    /**
+     * Возвращает список продуктов в корзине
+     * @returns Список продуктов
+     */
+    public getProducts(): IProduct[] {
         return this.products;
     }
 
-    costProducts(): number {
+    /**
+     * Возвращает стоимость продуктов в корзине
+     * @returns Стоимость
+     */
+    public cost(): number {
         return this.products.reduce((acc, val) => acc + (val.price ?? 0), 0)
     }
 
-    existProduct(id: string): boolean {
+    /**
+     * Проверят наличие продукта в корзине по его идентификатору
+     * @param id Идентификатор продукта
+     * @returns Признак наличия
+     */
+    public is_exist(id: string): boolean {
         return this.products.some(val => val.id === id);
     }
 
-    clearProducts() {
+    /**
+     * Очистка корзины
+     */
+    public clear() {
         this.products = [];
     }
 }
