@@ -20,16 +20,38 @@ client.getProducts().then(data => {
 
     console.log('Полный каталог: ', catalog.getProducts());
 
+    console.log('Получение из каталога продукта по его идентификатору: ', catalog.getProduct('f3867296-45c7-4603-bd34-29cea3a061d5'));
+
+    catalog.setSelected(catalog.getProduct('1c521d84-c48d-48fa-8cfb-9d911fa515fd') ?? null);
+
+    console.log('Выбранный продукт: ', catalog.getSelected());
+
     const cart = new Cart();
     cart.addProduct(catalog.getProducts()[0]);
     cart.addProduct(catalog.getProducts()[3]);
+    cart.addProduct(catalog.getProducts()[7]);
+    cart.deleteProduct(catalog.getProducts()[7]);
+
+    console.log('Количество продуктов в корзине: ', cart.count(), ' стоимость продуктов: ', cart.cost(), ' продукты: ', cart.getProducts());
+    console.log('Проверка наличий продукта в корзине: ', cart.is_exist('854cef69-976d-4c2a-a18c-2aa45046c390'));
 
     const buyer = new Buyer();
+
+    console.log('Реультат проверки  информации введенной покупателем, до ввода: ', buyer.validate())
+
     buyer.setAddress('Адрес');
     buyer.setEmail('user@domain.com');
     buyer.setPayment('online');
     buyer.setPhone('123456789');
 
+    console.log('Информация введеная покупателем: ', buyer.getBuyer());
+    buyer.setBuyer({
+        payment: 'cash',
+        address: 'Без адреса',
+        email: 'user@mail.ru',
+        phone: '987654321'
+    })
+    console.log('Информация введеная покупателем, после setBuyer: ', buyer.getBuyer());
     console.log('Результат проверки информации введенной покупателем: ', buyer.validate());
 
     const order: IOrder = {
@@ -40,5 +62,9 @@ client.getProducts().then(data => {
 
     client.postOrder(order).then(data => {
         console.log('Результат отправки заказа: ', data);
+        cart.clear();
+        console.log('Продукты в корзине после очистки: ', cart.getProducts());
     })
+
+    
 })

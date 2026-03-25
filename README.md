@@ -123,44 +123,53 @@ interface ICustomer {
 ```
 ## Модели данных
 ### Класс Catalog - все товары
+```
 Поля класса:  
-`products: IProduct[]`                          - Полный список товаров  
-`selected: IProduct | null`                     - Выбранный товар  
+protected products: IProduct[]                      - Собственно каталог
+protected selected: IProduct | null                 - Выбранный продукт
 
-Методы:  
-`constructor()`                                 - Конструктор, устанавливает пустой список продуктов и отсуствие выбранного продукта  
-`setProcucts(products: IProduct[])`             - Устанавливает полный список продкутов  
-`getProducts(): IProduct[]`                     - Получает полный список продуктов  
-`getProduct(id: string): IProduct | undefined`  - Получает товар по его id  
-`setSelected(product: IProduct | null)`         - Устанавливает выбранный товар  
-`getSelected(): IProduct | null`                - Получает выбранный товар  
+Конструктор:
+constructor()                                       - Создание каталога
 
+Методы:
+public setProcucts(products: IProduct[])            - Установка полного списка продуктов
+public getProducts(): IProduct[]                    - Получение списка продуктов
+public getProduct(id: string): IProduct | undefined - Получение продукта по его идентификатору
+public setSelected(product: IProduct | null)        - Установка выбранного продукта
+public getSelected(): IProduct | null               - Получение выбранного продукта
+```
 ### Класс Cart - Корзина покупателя
+```
+Поля класса:
+protected products: IProduct[]                      - Список товаров в корзине
+
+Конструктор:
+constructor()                                       - Создание корзины
+
+Методы:
+public addProduct(product: IProduct)                - Добавляет продукт в корзину
+public deleteProduct(product: IProduct)             - Удаляет продукт из корзины
+public count(): number                              - Возвращает количество продуктов
+public getProducts(): IProduct[]                    - Возвращает список продуктов в корзине
+public cost(): number                               - Возвращает стоимость продуктов в корзине
+public is_exist(id: string): boolean                - Проверят наличие продукта в корзине по его идентификатору
+public clear()                                      - Очистка корзины
+```
+
+### Класс Buyer - Покупатель
+```
 Поля класса:  
-`products: IProduct[]`                          - выбранные товары  
+protected buyer: IBuyer                             - Покупатель
+
+Конструктор:
+constructor()                                       - Конструктор, устанавливает пустое значение
 
 Методы:  
-`constructor()`                                 - Устанавливает пустой список товаров  
-`addProduct(product: IProduct)`                 - Добавляет товар в корзину  
-`deleteProduct(product: IProduct)`              - Удаляет товар из корзины  
-`countProducts(): number`                       - Возвращает количество товаров  
-`getProducts(): IProduct[]`                     - Возращает список товаров в корзине  
-`costProducts(): number`                        - Стоимость товаров в корзине  
-`existProduct(id: string): boolean`             - Проверка наличия товара в корзине  
-`clearProducts()`                               - Очищает корзину  
-
-
-### Класс Buyer - Покупатель реализует интерфейс IBuyer
-Поля класса:  
-`payment: TPayment`                             - Тип оплаты  
-`address: string`                               - Адрес доставки   
-`email: string`                                 - Email   
-`phone: string`                                 - Телефон   
-
-Методы:  
-`constructor()`                                 - Конструктор, устанавливает пустые значения  
-`check(): Record<string, string>`               - Возвращает объект с описанием ошибок полей или пустой объект, если все проверки успешны  
-`setPayment(payment: TPayment)`                 - Устанавливает тип оплаты  
-`setAddress(address: string)`                   - Уставливает адрес  
-`setEmail(email: string)`                       - Устанавливает email  
-`setPhone(phone: string)`                       - Устанавливает телефон  
+public validate(): TError                           - Производит проверку, возвращает объект, в котором ключом, является поле, а значением - проблемы с этим полем
+public getBuyer(): IBuyer                           - Возвращает покупателя
+public setBuyer(buyer: IBuyer)                      - Устанавливает покупателя
+public setPayment(payment: TPayment)                - Устанавливает способ оплаты
+public setAddress(address: string)                  - Устанавливает адрес
+public setEmail(email: string)                      - Устанавливает email
+public setPhone(phone: string)                      - Устанавливает телефон
+```

@@ -48,7 +48,7 @@ export class Buyer {
     }
 
     /**
-     * Устанвливает покупателя
+     * Устанавливает покупателя
      * @param buyer Покупатель
      */
     public setBuyer(buyer: IBuyer) {
