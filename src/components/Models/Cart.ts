@@ -1,4 +1,5 @@
 import { IProduct } from "../../types";
+import { IEvents } from "../base/Events";
 
 /**
  * Корзина покупателя
@@ -6,10 +7,13 @@ import { IProduct } from "../../types";
 export class Cart {
   protected products: IProduct[];
 
+  protected events: IEvents;
+
   /**
    * Создание корзины
    */
-  constructor() {
+  constructor(events: IEvents) {
+    this.events = events;
     this.products = [];
   }
 

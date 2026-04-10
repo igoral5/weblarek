@@ -1,4 +1,5 @@
 import { IProduct } from "../../types";
+import { IEvents } from "../base/Events";
 
 /**
  * Каталог продуктов
@@ -9,6 +10,8 @@ export class Catalog {
    */
   protected products: IProduct[];
 
+  protected events: IEvents;
+
   /**
    * Выбранный продукт
    */
@@ -17,9 +20,10 @@ export class Catalog {
   /**
    * Создание каталога
    */
-  constructor() {
+  constructor(events: IEvents) {
     this.products = [];
     this.selected = null;
+    this.events = events;
   }
 
   /**
@@ -28,6 +32,7 @@ export class Catalog {
    */
   public setProcucts(products: IProduct[]) {
     this.products = products;
+    this.events.emit('catalog:change');
   }
 
   /**
@@ -53,6 +58,7 @@ export class Catalog {
    */
   public setSelected(product: IProduct | null) {
     this.selected = product;
+    this.events.emit("catalog:selected");
   }
 
   /**
