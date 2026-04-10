@@ -77,6 +77,10 @@ class Presenter {
       });
       this.modal.show = true;
     });
+
+    this.events.on("modal:close", () => {
+      this.modal.show = false;
+    })
   }
 
   start() {

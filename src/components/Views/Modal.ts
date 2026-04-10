@@ -34,6 +34,7 @@ export class Modal extends Component<IModalContent> {
   }
 
   set content(value: HTMLElement) {
+    this.contentElement.innerHTML = '';
     this.contentElement.append(value);
   }
 }
