@@ -7,13 +7,10 @@ import { IEvents } from "../base/Events";
 export class Cart {
   protected products: IProduct[];
 
-  protected events: IEvents;
-
   /**
    * Создание корзины
    */
-  constructor(events: IEvents) {
-    this.events = events;
+  constructor(protected events: IEvents) {
     this.products = [];
   }
 
@@ -23,6 +20,7 @@ export class Cart {
    */
   public addProduct(product: IProduct) {
     this.products.push(product);
+    this.events.emit("basket:change");
   }
 
   /**
@@ -31,6 +29,7 @@ export class Cart {
    */
   public deleteProduct(product: IProduct) {
     this.products = this.products.filter((val) => val.id !== product.id);
+    this.events.emit("basket:change");
   }
 
   /**
@@ -71,5 +70,6 @@ export class Cart {
    */
   public clear() {
     this.products = [];
+    this.events.emit("basket:change");
   }
 }

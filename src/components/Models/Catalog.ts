@@ -32,7 +32,7 @@ export class Catalog {
    */
   public setProcucts(products: IProduct[]) {
     this.products = products;
-    this.events.emit('catalog:change');
+    this.events.emit("catalog:change");
   }
 
   /**

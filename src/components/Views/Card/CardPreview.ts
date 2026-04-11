@@ -1,68 +1,28 @@
 import { IProduct } from "../../../types";
-import { categoryMap } from "../../../utils/constants";
 import { ensureElement } from "../../../utils/utils";
-import { Component } from "../../base/Component";
+import { CardBasePreview } from "../../base/CardBasePreview";
 
 type ICardPreview = Pick<
   IProduct,
   "category" | "title" | "image" | "price" | "description"
->;
+> & { selected: boolean };
 
+interface IActionPrewiev {
+  onClick?(): void;
+}
 
-type CategoryKey = keyof typeof categoryMap;
+export class CardPreview extends CardBasePreview<ICardPreview> {
+  protected buttonElement: HTMLButtonElement;
 
-export class CardPreview extends Component<ICardPreview> {
-  protected categotyElement: HTMLSpanElement;
-  protected titleElement: HTMLHeadingElement;
-  protected descriptionElement: HTMLParagraphElement;
-  protected imageElement: HTMLImageElement;
-  protected priceElement: HTMLSpanElement;
-
-  constructor(
-    container: HTMLElement,
-    protected cdnUrl: string,
-  ) {
-    super(container);
-    this.categotyElement = ensureElement<HTMLSpanElement>(
-      ".card__category",
+  constructor(container: HTMLElement, cdnUrl: string, actions: IActionPrewiev) {
+    super(container, cdnUrl);
+    this.buttonElement = ensureElement<HTMLButtonElement>(
+      ".card__button",
       this.container,
     );
-    this.titleElement = ensureElement<HTMLHeadingElement>(
-      ".card__title",
-      this.container,
-    );
-    this.descriptionElement = ensureElement<HTMLParagraphElement>(
-      ".card__text",
-      this.container,
-    );
-    this.imageElement = ensureElement<HTMLImageElement>(
-      ".card__image",
-      this.container,
-    );
-    this.priceElement = ensureElement<HTMLSpanElement>(
-      ".card__price",
-      this.container,
-    );
-  }
-
-  set category(value: string) {
-    this.categotyElement.textContent = value;
-
-    for (const key in categoryMap) {
-      this.categotyElement.classList.toggle(
-        categoryMap[key as CategoryKey],
-        key === value,
-      );
+    if (actions?.onClick) {
+      this.buttonElement.addEventListener("click", actions.onClick);
     }
-  }
-
-  set title(value: string) {
-    this.titleElement.textContent = value;
-  }
-
-  set image(value: string) {
-    const url = `${this.cdnUrl}${value}`;
-    this.setImage(this.imageElement, url);
   }
 
   set price(value: number | null) {
@@ -70,11 +30,12 @@ export class CardPreview extends Component<ICardPreview> {
       this.priceElement.textContent = `${value} синапсов`;
     } else {
       this.priceElement.textContent = "Бесценно";
+      this.buttonElement.textContent = "Недоступно";
+      this.buttonElement.disabled = true;
     }
   }
 
-  set description(value: string) {
-    this.descriptionElement.textContent = value;
+  set selected(value: boolean) {
+    if (value) this.buttonElement.textContent = "Удалить из корзины";
   }
-
 }

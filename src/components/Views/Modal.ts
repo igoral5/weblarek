@@ -26,15 +26,29 @@ export class Modal extends Component<IModalContent> {
     this.buttonElement.addEventListener("click", () =>
       this.events.emit("modal:close"),
     );
+    this.container.addEventListener("click", (event: MouseEvent) => {
+      if (event.target === this.container) this.events.emit("modal:close");
+    });
   }
 
+  protected handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Escape" || event.code === "Escape") {
+      this.events.emit("modal:close");
+    }
+  };
+
   set show(value: boolean) {
-    if (value) this.container.style.display = 'block';
-    else this.container.style.display = 'none';
+    if (value) {
+      this.container.style.display = "block";
+      document.addEventListener("keydown", this.handleKeyDown);
+    } else {
+      this.container.style.display = "none";
+      document.removeEventListener("keydown", this.handleKeyDown);
+    }
   }
 
   set content(value: HTMLElement) {
-    this.contentElement.innerHTML = '';
+    this.contentElement.innerHTML = "";
     this.contentElement.append(value);
   }
 }

@@ -1,4 +1,5 @@
 import { IBuyer, TPayment } from "../../types";
+import { IEvents } from "../base/Events";
 
 type TError = Record<string, string>;
 
@@ -11,7 +12,7 @@ export class Buyer {
   /**
    * Создает покупателя
    */
-  constructor() {
+  constructor(protected events: IEvents) {
     this.buyer = {
       payment: "",
       address: "",
@@ -50,6 +51,7 @@ export class Buyer {
    */
   public setBuyer(buyer: IBuyer) {
     this.buyer = buyer;
+    this.events.emit("buyer:change")
   }
 
   /**
@@ -58,6 +60,7 @@ export class Buyer {
    */
   public setPayment(payment: TPayment) {
     this.buyer.payment = payment;
+    this.events.emit("buyer:change")
   }
 
   /**
@@ -66,6 +69,7 @@ export class Buyer {
    */
   public setAddress(address: string) {
     this.buyer.address = address;
+    this.events.emit("buyer:change")
   }
 
   /**
@@ -74,6 +78,7 @@ export class Buyer {
    */
   public setEmail(email: string) {
     this.buyer.email = email;
+    this.events.emit("buyer:change")
   }
 
   /**
@@ -82,5 +87,6 @@ export class Buyer {
    */
   public setPhone(phone: string) {
     this.buyer.phone = phone;
+    this.events.emit("buyer:change")
   }
 }
