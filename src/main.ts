@@ -208,11 +208,12 @@ class Presenter {
 
   protected renderOrder = () => {
     const buyer = this.buyer.getBuyer();
-    const errors = this.buyer.validate();
-    const enable = !("payment" in errors || "address" in errors);
+    const { email, phone, ...error } = this.buyer.validate();
+    const enable = Object.keys(error).length === 0;
     return this.order?.render({
       ...buyer,
       enable,
+      error,
     });
   };
 
@@ -224,7 +225,7 @@ class Presenter {
 
   protected renderContacts = () => {
     const buyer = this.buyer.getBuyer();
-    const error = this.buyer.validate();
+    const { payment, address, ...error } = this.buyer.validate();
     const enable = Object.keys(error).length === 0;
     return this.contacts?.render({
       ...buyer,
