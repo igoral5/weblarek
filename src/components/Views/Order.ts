@@ -3,13 +3,17 @@ import { ensureElement } from "../../utils/utils";
 import { Component } from "../base/Component";
 import { IEvents } from "../base/Events";
 
-type IOrder = Pick<IBuyer, "payment" | "address"> & { enable: boolean };
+type IOrder = Pick<IBuyer, "payment" | "address"> & {
+  enable: boolean;
+  error: object;
+};
 
 export class Order extends Component<IOrder> {
   protected cardElement: HTMLButtonElement;
   protected cashElement: HTMLButtonElement;
   protected addressElement: HTMLInputElement;
   protected submitElement: HTMLButtonElement;
+  protected errorElement: HTMLElement;
 
   constructor(
     container: HTMLElement,
@@ -33,6 +37,10 @@ export class Order extends Component<IOrder> {
       '[type="submit"]',
       this.container,
     );
+    this.errorElement = ensureElement<HTMLElement>(
+      ".form__errors",
+      this.container,
+    );
 
     this.cardElement.addEventListener("click", () => {
       this.events.emit("order:payment", { payment: "online" });
@@ -51,9 +59,9 @@ export class Order extends Component<IOrder> {
     });
 
     this.container.addEventListener("submit", (event: SubmitEvent) => {
-        event.preventDefault();
-        this.events.emit("order:close");
-    })
+      event.preventDefault();
+      this.events.emit("order:close");
+    });
   }
 
   set payment(value: TPayment) {
@@ -70,5 +78,9 @@ export class Order extends Component<IOrder> {
 
   set enable(value: boolean) {
     this.submitElement.disabled = !value;
+  }
+
+  set error(value: object) {
+    this.errorElement.innerHTML = Object.values(value).join("<br/>");
   }
 }
