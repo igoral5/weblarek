@@ -1,9 +1,12 @@
-import { categoryMap } from "../../utils/constants";
-import { ensureElement } from "../../utils/utils";
+import { categoryMap } from "../../../utils/constants";
+import { ensureElement } from "../../../utils/utils";
 import { CardBase } from "./CardBase";
 
 type CategoryKey = keyof typeof categoryMap;
 
+/**
+ * Базовая карточка с наименованием, ценой, категорией и изображением
+ */
 export class CardBaseCatalog<T> extends CardBase<T> {
   protected categotyElement: HTMLElement;
   protected imageElement: HTMLImageElement;

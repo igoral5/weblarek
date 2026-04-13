@@ -1,6 +1,6 @@
 import { IProduct } from "../../../types";
 import { ensureElement } from "../../../utils/utils";
-import { CardBase } from "../../base/CardBase";
+import { CardBase } from "./CardBase";
 
 type ICardBasket = Pick<IProduct, "title" | "price"> & { index: number };
 
@@ -8,6 +8,9 @@ interface IActionBasket {
   onClick?(): void;
 }
 
+/**
+ * Карточка в корзине покупателя
+ */
 export class CardBasket extends CardBase<ICardBasket> {
   protected buttonElement: HTMLButtonElement;
   protected indexElement: HTMLSpanElement;

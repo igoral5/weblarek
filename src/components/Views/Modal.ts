@@ -4,10 +4,14 @@ import { IEvents } from "../base/Events";
 
 interface IModalContent {
   content: HTMLElement;
+  show: boolean;
 }
 
+/**
+ * Модальное окно
+ */
 export class Modal extends Component<IModalContent> {
-  protected contentElement: HTMLDivElement;
+  protected contentElement: HTMLElement;
   protected buttonElement: HTMLButtonElement;
 
   constructor(
@@ -15,7 +19,7 @@ export class Modal extends Component<IModalContent> {
     protected events: IEvents,
   ) {
     super(container);
-    this.contentElement = ensureElement<HTMLDivElement>(
+    this.contentElement = ensureElement<HTMLElement>(
       ".modal__content",
       this.container,
     );
@@ -33,16 +37,17 @@ export class Modal extends Component<IModalContent> {
 
   protected handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Escape" || event.code === "Escape") {
-      this.events.emit("modal:close");
+      this.events.emit("modal:close"); // Здесь лучше генерить событие, так как возможно при закрытия модального окна, производятся еще какие-нибудь действия
+                                       // как например при закрытия окна об успешном заказе, должно производиться очистка корзины и данных покупателя.
     }
   };
 
   set show(value: boolean) {
     if (value) {
-      this.container.style.display = "block";
+      this.container.classList.add("modal_active");
       document.addEventListener("keydown", this.handleKeyDown);
     } else {
-      this.container.style.display = "none";
+      this.container.classList.remove("modal_active");
       document.removeEventListener("keydown", this.handleKeyDown);
     }
   }

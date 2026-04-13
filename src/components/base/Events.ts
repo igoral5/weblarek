@@ -4,17 +4,16 @@ type EventEnum =
   | "catalog:load"          // Иницирует загрузку каталога
   | "catalog:change"        // Каталог изменен
   | "catalog:select"        // Выбирается продукт
-  | "catalog:selected"      // Продукт выбран, 
+  | "catalog:selected"      // Продукт выбран
   | "modal:close"           // Закрываем модальное окно
   | "basket:open"           // Открытие корзины пользователя
+  | "basket:add"            // Добавляем продукт в корзину
+  | "basket:remove"         // Удаляем продукт из корзины
   | "basket:change"         // Изменилась корзина покупателя
   | "order:open"            // Открытие первой части ввода заказа, способ оплаты и адрес доставки
-  | "order:payment"         // Ввод способа оплаты
-  | "order:address"         // Ввод адреса
   | "order:close"           // Закрываем ввод первой части ввода заказа
+  | "buyer:set"             // Установка покупателя
   | "buyer:change"          // Покупатель изменен
-  | "contacts:email"        // Ввод email
-  | "contacts:phone"        // Ввод телефона
   | "contacts:close"        // Закрытие второй части ввода заказа
   | "*";                    // Все события
 type EventName = EventEnum | RegExp;

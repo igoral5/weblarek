@@ -6,6 +6,9 @@ interface IHeader {
   counter: number;
 }
 
+/**
+ * Заголовок страницы
+ */
 export class Header extends Component<IHeader> {
   protected counterElement: HTMLElement;
   protected basketButton: HTMLButtonElement;

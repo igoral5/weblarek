@@ -6,6 +6,9 @@ interface ISuccess {
   cost: number;
 }
 
+/**
+ * Заказ создан
+ */
 export class Success extends Component<ISuccess> {
   protected descriptionElement: HTMLElement;
   protected buttonElement: HTMLButtonElement;

@@ -1,21 +1,29 @@
 import { IProduct } from "../../../types";
 import { ensureElement } from "../../../utils/utils";
-import { CardBasePreview } from "../../base/CardBasePreview";
+import { CardBaseCatalog } from "./CardBaseCatalog";
 
 type ICardPreview = Pick<
   IProduct,
   "category" | "title" | "image" | "price" | "description"
-> & { selected: boolean };
+> & { enable: boolean; text: string };
 
 interface IActionPrewiev {
   onClick?(): void;
 }
 
-export class CardPreview extends CardBasePreview<ICardPreview> {
+/**
+ * Preview карточки
+ */
+export class CardPreview extends CardBaseCatalog<ICardPreview> {
+  protected descriptionElement: HTMLElement;
   protected buttonElement: HTMLButtonElement;
 
   constructor(container: HTMLElement, cdnUrl: string, actions: IActionPrewiev) {
     super(container, cdnUrl);
+    this.descriptionElement = ensureElement<HTMLElement>(
+      ".card__text",
+      this.container,
+    );
     this.buttonElement = ensureElement<HTMLButtonElement>(
       ".card__button",
       this.container,
@@ -25,17 +33,16 @@ export class CardPreview extends CardBasePreview<ICardPreview> {
     }
   }
 
-  set price(value: number | null) {
-    if (value) {
-      this.priceElement.textContent = `${value} синапсов`;
-    } else {
-      this.priceElement.textContent = "Бесценно";
-      this.buttonElement.textContent = "Недоступно";
-      this.buttonElement.disabled = true;
-    }
+
+  set description(value: string) {
+    this.descriptionElement.textContent = value;
   }
 
-  set selected(value: boolean) {
-    if (value) this.buttonElement.textContent = "Удалить из корзины";
+  set enable(value: boolean) {
+    this.buttonElement.disabled = !value;
+  }
+
+  set text(value: string) {
+    this.buttonElement.textContent = value;
   }
 }

@@ -1,6 +1,10 @@
-import { ensureElement } from "../../utils/utils";
-import { Component } from "./Component";
+import { ensureElement } from "../../../utils/utils";
+import { Component } from "../../base/Component";
 
+
+/**
+ * Базовая карточка
+ */
 export class CardBase<T> extends Component<T> {
   protected titleElement: HTMLElement;
   protected priceElement: HTMLElement;

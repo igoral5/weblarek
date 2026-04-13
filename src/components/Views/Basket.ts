@@ -5,8 +5,12 @@ import { IEvents } from "../base/Events";
 interface IBasket {
   cost: number;
   products: HTMLElement[];
+  enable: boolean
 }
 
+/**
+ * Корзина покупателя
+ */
 export class Basket extends Component<IBasket> {
   protected priceElement: HTMLSpanElement;
   protected buttonElement: HTMLButtonElement;
@@ -39,10 +43,10 @@ export class Basket extends Component<IBasket> {
   }
 
   set products(items: HTMLLIElement[]) {
-    this.listElement.innerHTML = "";
-    this.listElement.append(...items);
-    if (items.length === 0) {
-      this.buttonElement.disabled = true;
-    }
+    this.listElement.replaceChildren(...items);
+  }
+
+  set enable(value: boolean) {
+    this.buttonElement.disabled = !value;
   }
 }

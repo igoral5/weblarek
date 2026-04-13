@@ -1,25 +1,21 @@
 import { IProduct } from "../../../types";
-import { CardBaseCatalog } from "../../base/CardBaseCatalog";
+import { CardBaseCatalog } from "./CardBaseCatalog";
 
 type ICardCatalog = Pick<IProduct, "category" | "title" | "image" | "price">;
 
 interface ICardAction {
-    onClick?(): void;
+  onClick?(): void;
 }
 
+/**
+ * Карточка в каталоге
+ */
 export class CardCatalog extends CardBaseCatalog<ICardCatalog> {
-  
-  constructor(
-    container: HTMLElement,
-    actions: ICardAction,
-    cdnUrl: string,
-
-  ) {
+  constructor(container: HTMLElement, actions: ICardAction, cdnUrl: string) {
     super(container, cdnUrl);
 
     if (actions?.onClick) {
-        this.container.addEventListener('click', actions.onClick)
+      this.container.addEventListener("click", actions.onClick);
     }
   }
-
 }
