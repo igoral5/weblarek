@@ -1,9 +1,15 @@
 import { IApi, IOrder, IOrderResult, IProduct, IProductList } from "../types";
 
+
+export interface IApiClient {
+  getProducts(): Promise<IProduct[]>;
+  postOrder(order: IOrder): Promise<IOrderResult>;
+}
+
 /**
  * Взаимодействие с back'ом
  */
-export class ApiClient {
+export class ApiClient implements IApiClient{
   protected api: IApi;
 
   /**

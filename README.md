@@ -174,36 +174,201 @@ public setPhone(phone: string)                      - Устанавливает
 public clear()                                      - Очищает аттрибуты покупателя
 ```
 ## Представления
+### CardBase  - Базовая карточка
 ```
-CardBase                                            - Базовая карточка
-CardBaseCatalog                                     - Базовая карточка с наименованием, ценой, категорией и изображением
-CardBasket                                          - Карточка в корзине покупателя
-CardCatalog                                         - Карточка в каталоге
-CardPreview                                         - Preview карточки
-Basket                                              - Корзина покупателя
-Form                                                - Базовый класс для форм
-Order                                               - Ввод информации о заказе, способ оплаты и адрес доставки
-Contacts                                            - Ввод контактов покупателя
-Gallery                                             - Каталог продуктов
-Header                                              - Заголовок страницы
-Modal                                               - Модальное окно
-Success                                             - Заказ создан
+Поля класса:
+protected titleElement: HTMLElement                 - HMTL элемент загловка
+protected priceElement: HTMLElement                 - HTML элемент цены
+
+Конструктор:
+constructor(container: HTMLElement)
+
+Сеттеры:
+set price(value: number | null)                     - Устанавливает цену
+set title(value: string)                            - Устанавливает заголовок
+```
+### CardBaseCatalog - Базовая карточка с наименованием, ценой, категорией и изображением
+```
+Поля класса:
+protected categotyElement: HTMLElement              - Категория
+protected imageElement: HTMLImageElement            - Изображение
+
+Конструктор:
+constructor(container: HTMLElement,  protected cdnUrl: string)
+
+Сеттеры:
+set category(value: string)                         - Установка категории
+set image(value: string)                            - Установка изображения 
+```
+### CardBasket - Карточка в корзине покупателя
+```
+Поля класса:
+protected buttonElement: HTMLButtonElement          - Кнопка удалить из корзины
+protected indexElement: HTMLSpanElement             - Номер продукта по порядку
+
+Конструктор:
+constructor(container: HTMLElement, actions: IActionBasket)
+
+Сеттеры:
+set index(value: number)                            - Установка номера по порядку
+```
+### CardCatalog - Карточка в каталоге
+```
+Конструктор:
+constructor(container: HTMLElement, actions: ICardAction, cdnUrl: string)
+```
+### CardPreview - Preview карточки
+```
+Поля класса:
+protected descriptionElement: HTMLElement           - Подробное описание продукта
+protected buttonElement: HTMLButtonElement          - Кнопка Добавить/Удалить
+
+Конструктор:
+constructor(container: HTMLElement, cdnUrl: string,  protected evenets: IEvents)
+
+Сеттеры:
+set description(value: string)                      - Установка описания
+set enable(value: boolean)                          - Разрешенена ди кнопка Добавить/Удалить
+set text(value: string)                             - Установка текста кнопки
+```
+### Basket - Корзина покупателя
+```
+Поля класса:
+protected priceElement: HTMLSpanElement             - Общая стоимость корзины
+protected buttonElement: HTMLButtonElement          - Кнопка Оформить
+protected listElement: HTMLUListElement             - Список товаров
+
+Конструктор:
+constructor(container: HTMLElement, protected events: IEvents)
+
+Сеттеры:
+set cost(value: number)                             - Установка стоимости корзины
+set products(items: HTMLLIElement[])                - Установка списка продуктов
+set enable(value: boolean)                          - Установка разрешения кнопки Оформить
+```
+### Form - Базовый класс для форм
+```
+Поля класса:
+protected submitElement: HTMLButtonElement          - Кнопка submit
+protected errorElement: HTMLElement;                - Ошибка
+
+Конструктор:
+constructor(container: HTMLElement, protected events: IEvents)
+
+Сеттеры:
+set enable(value: boolean)                          - Установка разрешения кнопки submit
+set error(value: object)                            - Установка ошибки
+```
+### Order - Ввод информации о заказе, способ оплаты и адрес доставки
+```
+Поля класса:
+protected cardElement: HTMLButtonElement            - Кнопка online способа оплаты
+protected cashElement: HTMLButtonElement            - Кнопка наличные способа оплаты
+protected addressElement: HTMLInputElement          - Поле ввода адреса
+
+Конструктор:
+constructor(container: HTMLElement, events: IEvents)
+
+Сеттеры:
+set payment(value: TPayment)                        - Установка способа оплаты
+set address(value: string)                          - Установка адреса
+```
+### Contacts - Ввод контактов покупателя
+```
+Поля класса:
+protected emailElement: HTMLInputElement            - поле ввода email
+protected phoneElement: HTMLInputElement            - поле ввода телефона
+
+Конструктор:
+constructor(container: HTMLElement, events: IEvents)
+
+Сеттеры:
+set email(value: string)                            - Установка email
+set phone(value: string)                            - Установка телефона
+```
+### Gallery - Каталог продуктов
+```
+Конструктор:
+constructor(container: HTMLElement)
+
+Сеттеры:
+set catalog(value: HTMLElement[])                   - Установка списка продуктов
+```
+### Header - Заголовок страницы
+```
+Поля класса:
+protected counterElement: HTMLElement               - Количество продуктов в корзине
+protected basketButton: HTMLButtonElement           - Кнопка корзины
+
+Конструктор:
+constructor(container: HTMLElement, protected events: IEvents)
+
+Сеттеры:
+set counter(value: number)                          - Установка количества продуктов в корзине
+```
+### Modal - Модальное окно
+```
+Поля класса:
+protected contentElement: HTMLElement               - Содержимое модального окна
+protected buttonElement: HTMLButtonElement          - Кнопка закрытия модального окна
+
+Конструктор:
+constructor(container: HTMLElement, protected events: IEvents)
+
+Сеттеры:
+set show(value: boolean)                            - Управляет видимостью модального окна
+set content(value: HTMLElement)                     - Устанавливает содержимого модального окна
+```
+### Success - Заказ создан
+```
+Поля класса:
+protected descriptionElement: HTMLElement           - Описание
+protected buttonElement: HTMLButtonElement          - Кнопка закрытия модального окна
+
+Конструктор:
+constructor(containet: HTMLElement, protected evenets: IEvents)
+
+Сеттеры:
+set cost(value: number)                             - Устанавливает количество списанных синапсов
 ```
 ## Клас Presenter реализует связывание моделй и представлений с помощью брокера событий
+```
+Конструктор:
+constructor(
+    protected catalog: ICatalog,                     - Модель каталога продуктоа
+    protected cart: ICart,                           - Модель корзина покупателя
+    protected events: IEvents,                       - Брокер событий
+    protected client: IApiClient,                    - API клиент
+    protected galllery: Component<IGallery>,         - Представление галерея
+    protected modal: Component<IModalContent>,       - Представление модальное окно
+    protected header: Component<IHeader>,            - Представление заголовок страницы
+    protected buyer: IntBuyer,                       - Модель покупателя
+    protected basket: Component<IBasket>,            - Представление корзина покупателя
+    protected order: Component<IOrder>,              - Представление первой части заказа, ввод способа оплаты и адреса
+    protected contacts: Component<IContacts>,        - Представление второй части заказа, ввод email и телефона
+    protected success: Component<ISuccess>,          - Представление успешного завершения заказа
+    protected cardPreview: Component<ICardPreview>,  - Представление подробного просмотра продукта
+    protected classCardCatalog: ClassCardCatalog,    - Класс представления карточки товара в каталоге
+    protected classCardBasket: ClassCardBasket,      - Класс представления карточки товара в корзине
+  )
+
+Методы:
+protected configure()                                - Задает обработчики событий
+start()                                              - Инициирует начальную загрузку каталога
+```
 ## Типы событий
 ```
-catalog:load                                        - Иницирует загрузку каталога
-catalog:change                                      - Каталог изменен
-catalog:select                                      - Выбирается продукт
-catalog:selected                                    - Продукт выбран 
-modal:close                                         - Закрываем модальное окно
-basket:open                                         - Открытие корзины пользователя
-basket:add                                          - Добавляем продукт в корзину
-basket:remove                                       - Удаляем продукт из корзины
-basket:change                                       - Изменилась корзина покупателя
-order:open                                          - Открытие первой части ввода заказа, способ оплаты и адрес доставки
-order:close                                         - Закрываем ввод первой части ввода заказа
-buyer:set                                           - Установка покупателя
-buyer:change                                        - Покупатель изменен
-contacts:close                                      - Закрытие второй части ввода заказа
+catalog:change                                       - Каталог изменен
+catalog:select                                       - Выбирается продукт
+catalog:selected                                     - Продукт выбран
+modal:close                                          - Закрываем модальное окно
+preview:button                                       - Нажата кнопка на preview товара
+basket:open                                          - Открытие корзины пользователя
+basket:change                                        - Изменилась корзина покупателя
+basket:remove                                        - Click на иконке удаления продукта из корзины
+order:open                                           - Открытие первой части ввода заказа, способ оплаты и адрес доставки
+order:close                                          - Закрываем ввод первой части ввода заказа
+buyer:set                                            - Установка покупателя
+buyer:change                                         - Покупатель изменен
+contacts:close                                       - Закрытие второй части ввода заказа
 ```

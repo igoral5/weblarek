@@ -1,5 +1,5 @@
 import "./scss/styles.scss";
-import { API_URL } from "./utils/constants";
+import { API_URL, CDN_URL } from "./utils/constants";
 import { cloneTemplate, ensureElement } from "./utils/utils";
 import { Api } from "./components/base/Api";
 import { EventEmitter } from "./components/base/Events";
@@ -15,6 +15,9 @@ import { Basket } from "./components/Views/Basket";
 import { Order } from "./components/Views/Order";
 import { Contacts } from "./components/Views/Contacts";
 import { Success } from "./components/Views/Success";
+import { CardPreview } from "./components/Views/Card/CardPreview";
+import { CardCatalog } from "./components/Views/Card/CardCatalog";
+import { CardBasket } from "./components/Views/Card/CardBasket";
 
 const api = new Api(API_URL);
 
@@ -42,6 +45,8 @@ const contacts = new Contacts(cloneTemplate("#contacts"), events);
 
 const success = new Success(cloneTemplate("#success"), events);
 
+const cardPreview = new CardPreview(cloneTemplate("#card-preview"), CDN_URL, events)
+
 const presenter = new Presenter(
   catalog,
   cart,
@@ -55,6 +60,9 @@ const presenter = new Presenter(
   order,
   contacts,
   success,
+  cardPreview,
+  CardCatalog,
+  CardBasket,
 );
 
 presenter.start();

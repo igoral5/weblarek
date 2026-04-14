@@ -1,10 +1,18 @@
 import { IProduct } from "../../types";
 import { IEvents } from "../base/Events";
 
+
+export interface ICatalog {
+  setProcucts(products: IProduct[]): void;
+  getProducts(): IProduct[];
+  setSelected(product: IProduct | null): void;
+  getSelected(): IProduct | null;
+}
+
 /**
  * Каталог продуктов
  */
-export class Catalog {
+export class Catalog implements ICatalog {
   /**
    * Собственно каталог
    */

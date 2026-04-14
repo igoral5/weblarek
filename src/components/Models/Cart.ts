@@ -1,10 +1,21 @@
 import { IProduct } from "../../types";
 import { IEvents } from "../base/Events";
 
+
+export interface ICart {
+  addProduct(product: IProduct): void;
+  deleteProduct(product: IProduct): void;
+  count(): number;
+  getProducts(): IProduct[];
+  cost(): number;
+  isExist(id: string): boolean;
+  clear(): void;
+}
+
 /**
  * Корзина покупателя
  */
-export class Cart {
+export class Cart implements ICart {
   protected products: IProduct[];
 
   /**

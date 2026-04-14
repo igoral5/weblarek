@@ -1,15 +1,12 @@
 import { IProduct } from "../../../types";
 import { ensureElement } from "../../../utils/utils";
+import { IEvents } from "../../base/Events";
 import { CardBaseCatalog } from "./CardBaseCatalog";
 
-type ICardPreview = Pick<
+export type ICardPreview = Pick<
   IProduct,
   "category" | "title" | "image" | "price" | "description"
 > & { enable: boolean; text: string };
-
-interface IActionPrewiev {
-  onClick?(): void;
-}
 
 /**
  * Preview карточки
@@ -18,7 +15,11 @@ export class CardPreview extends CardBaseCatalog<ICardPreview> {
   protected descriptionElement: HTMLElement;
   protected buttonElement: HTMLButtonElement;
 
-  constructor(container: HTMLElement, cdnUrl: string, actions: IActionPrewiev) {
+  constructor(
+    container: HTMLElement,
+    cdnUrl: string,
+    protected evenets: IEvents,
+  ) {
     super(container, cdnUrl);
     this.descriptionElement = ensureElement<HTMLElement>(
       ".card__text",
@@ -28,11 +29,10 @@ export class CardPreview extends CardBaseCatalog<ICardPreview> {
       ".card__button",
       this.container,
     );
-    if (actions?.onClick) {
-      this.buttonElement.addEventListener("click", actions.onClick);
-    }
+    this.buttonElement.addEventListener("click", () => {
+      this.evenets.emit("preview:button");
+    })
   }
-
 
   set description(value: string) {
     this.descriptionElement.textContent = value;

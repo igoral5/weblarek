@@ -3,7 +3,7 @@ import { ensureElement } from "../../utils/utils";
 import { IEvents } from "../base/Events";
 import { Form } from "./Form";
 
-type IContacts = Pick<IBuyer, "email" | "phone"> & {
+export type IContacts = Pick<IBuyer, "email" | "phone"> & {
   enable: boolean;
   error: object;
 };

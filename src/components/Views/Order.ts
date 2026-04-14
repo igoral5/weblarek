@@ -3,7 +3,7 @@ import { ensureElement } from "../../utils/utils";
 import { IEvents } from "../base/Events";
 import { Form } from "./Form";
 
-type IOrder = Pick<IBuyer, "payment" | "address"> & {
+export type IOrder = Pick<IBuyer, "payment" | "address"> & {
   enable: boolean;
   error: object;
 };
@@ -16,10 +16,7 @@ export class Order extends Form<IOrder> {
   protected cashElement: HTMLButtonElement;
   protected addressElement: HTMLInputElement;
 
-  constructor(
-    container: HTMLElement,
-    events: IEvents,
-  ) {
+  constructor(container: HTMLElement, events: IEvents) {
     super(container, events);
 
     this.cardElement = ensureElement<HTMLButtonElement>(
@@ -54,20 +51,11 @@ export class Order extends Form<IOrder> {
   }
 
   set payment(value: TPayment) {
-    if (value === "cash") {
-      this.cashElement.classList.add("button_alt-active");
-      this.cardElement.classList.remove("button_alt-active")
-    } else if (value === "online") {
-      this.cardElement.classList.add("button_alt-active");
-      this.cashElement.classList.remove("button_alt-active");
-    } else {
-      this.cardElement.classList.remove("button_alt-active");
-      this.cashElement.classList.remove("button_alt-active");
-    }
+    this.cashElement.classList.toggle("button_alt-active", value === "cash");
+    this.cardElement.classList.toggle("button_alt-active", value === "online");
   }
 
   set address(value: string) {
     this.addressElement.value = value;
   }
-
 }

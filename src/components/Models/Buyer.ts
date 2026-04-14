@@ -3,10 +3,20 @@ import { IEvents } from "../base/Events";
 
 type TError = Partial<Record<keyof IBuyer, string>>;
 
+export interface IntBuyer {
+  validate(): TError;
+  getBuyer(): IBuyer;
+  setPayment(payment: TPayment): void;
+  setAddress(address: string): void;
+  setEmail(email: string): void;
+  setPhone(phone: string): void;
+  clear(): void;
+}
+
 /**
  * Класс покупатель
  */
-export class Buyer {
+export class Buyer implements IntBuyer{
   protected buyer: IBuyer;
 
   /**
