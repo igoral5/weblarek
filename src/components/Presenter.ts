@@ -1,4 +1,4 @@
-import { IProduct, TPayment } from "../types";
+import { IProduct } from "../types";
 import { CDN_URL } from "../utils/constants";
 import { cloneTemplate } from "../utils/utils";
 import { Component } from "./base/Component";
@@ -64,28 +64,30 @@ export class Presenter {
       });
     });
     // Выбор пользователем продукта для просмотра
-    this.events.on("catalog:select", (product) => {
-      this.catalog.setSelected(product as IProduct);
+    this.events.on("catalog:select", (product: IProduct) => {
+      this.catalog.setSelected(product);
     });
     // Устанавливаем продукт в качестве выбранного, приводит к его показу в модальном окне
     this.events.on("catalog:selected", () => {
-      const product = this.catalog.getSelected() as IProduct;
-      const exists = this.cart.isExist(product.id);
-      const text =
-        product.price === null
-          ? "Недоступно"
-          : exists
-            ? "Удалить из корзины"
-            : "Купить";
-      const enable = product.price !== null;
-      this.modal.render({
-        content: this.cardPreview.render({
-          ...product,
-          enable,
-          text,
-        }),
-        show: true,
-      });
+      const product = this.catalog.getSelected();
+      if (product) {
+        const exists = this.cart.isExist(product.id);
+        const text =
+          product.price === null
+            ? "Недоступно"
+            : exists
+              ? "Удалить из корзины"
+              : "В корзину";
+        const enable = product.price !== null;
+        this.modal.render({
+          content: this.cardPreview.render({
+            ...product,
+            enable,
+            text,
+          }),
+          show: true,
+        });
+      }
     });
     // Закрытие модального окна
     this.events.on("modal:close", () => {
@@ -163,7 +165,7 @@ export class Presenter {
       for (let [key, value] of Object.entries(data)) {
         switch (key) {
           case "payment":
-            this.buyer.setPayment(value as TPayment);
+            this.buyer.setPayment(value);
             break;
           case "address":
             this.buyer.setAddress(value);
