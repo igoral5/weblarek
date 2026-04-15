@@ -205,18 +205,21 @@ export class Presenter {
         total: this.cart.cost(),
         items: this.cart.getProducts().map((product) => product.id),
       };
-      this.client.postOrder(order).then((data) => {
-        this.modal.render({
-          content: this.success.render({
-            cost: data.total,
-          }),
-          show: true,
+      this.client
+        .postOrder(order)
+        .then((data) => {
+          this.modal.render({
+            content: this.success.render({
+              cost: data.total,
+            }),
+            show: true,
+          });
+          this.cart.clear();
+          this.buyer.clear();
+        })
+        .catch(() => {
+          alert("Возникла ошибка выполнения заказа !");
         });
-        this.cart.clear();
-        this.buyer.clear();
-      }).catch(() => {
-        alert("Возникла ошибка выполнения заказа !");
-      });
     });
   }
 
@@ -224,10 +227,13 @@ export class Presenter {
    * Инициирует начальную загрузку каталога
    */
   start() {
-    this.client.getProducts().then(data => {
-      this.catalog.setProcucts(data);
-    }).catch(() => {
-      alert("Ошибка загрузки списка продуктов !");
-    })
+    this.client
+      .getProducts()
+      .then((data) => {
+        this.catalog.setProcucts(data);
+      })
+      .catch(() => {
+        alert("Ошибка загрузки списка продуктов !");
+      });
   }
 }
