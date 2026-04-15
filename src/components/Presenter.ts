@@ -121,7 +121,7 @@ export class Presenter {
     // Привязка отображение корзины к событию изменения корзины
     this.events.on("basket:change", () => {
       const products = this.cart.getProducts();
-      return this.basket.render({
+      this.basket.render({
         cost: this.cart.cost(),
         products: products.map((product, index) => {
           const card = new this.classCardBasket(cloneTemplate("#card-basket"), {
@@ -154,7 +154,7 @@ export class Presenter {
       const buyer = this.buyer.getBuyer();
       const { email, phone, ...error } = this.buyer.validate();
       const enable = Object.keys(error).length === 0;
-      return this.order.render({
+      this.order.render({
         ...buyer,
         enable,
         error,
@@ -191,7 +191,7 @@ export class Presenter {
       const buyer = this.buyer.getBuyer();
       const { payment, address, ...error } = this.buyer.validate();
       const enable = Object.keys(error).length === 0;
-      return this.contacts.render({
+      this.contacts.render({
         ...buyer,
         enable,
         error,
