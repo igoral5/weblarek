@@ -231,6 +231,8 @@ export class Presenter {
       .getProducts()
       .then((data) => {
         this.catalog.setProcucts(data);
+        this.cart.clear();
+        this.buyer.clear();
       })
       .catch(() => {
         alert("Ошибка загрузки списка продуктов !");
