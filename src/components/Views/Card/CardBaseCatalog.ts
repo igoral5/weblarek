@@ -38,7 +38,7 @@ export class CardBaseCatalog<T> extends CardBase<T> {
   }
 
   set image(value: string) {
-    const url = `${this.cdnUrl}${value}`;
+    const url = `${this.cdnUrl}${value.replace('.svg', '.png')}`;
     this.setImage(this.imageElement, url);
   }
 }
